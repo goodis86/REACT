@@ -3,7 +3,7 @@ import classes from "./Person.css";
 
 const person = (props) => {
   // using media queries requires importing StyleRoot from Radium
-
+console.log('[Person.js] rendering...');
   return (
     //our style will override the Person classname in styling!!!
     // <div className='Person' style = {style}>

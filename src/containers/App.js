@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import Person from "../Components/Persons/Person/Person";
+//import Person from "../Components/Persons/Person/Person";
 import classes from "./App.css";
-import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+//import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import People from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log("[App.js] constructor");
+  }
   state = {
     people: [
       { id: "13", name: "Phil", age: 34 },
@@ -15,6 +19,19 @@ class App extends Component {
     otherState: "some other state",
     showPeople: false,
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log("[App.js] getDerivedStateFromProps", props);
+    return state;
+  }
+
+  // componentWillMount(){
+  //   console.log('[App.js] component');
+  // }
+
+  componentDidMount() {
+    console.log("[App.js] componentDidMount");
+  }
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.people.find((p) => {
@@ -45,7 +62,7 @@ class App extends Component {
 
   render() {
     // inline styling for a certain component! still has some restrictions!
-
+    console.log("[App.js] render");
     let people = null;
 
     if (this.state.showPeople) {
