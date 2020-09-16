@@ -1,21 +1,24 @@
-import React from "react";
+import React, { Component } from "react";
 import classes from "./Person.css";
 
-const person = (props) => {
+class Person extends Component {
   // using media queries requires importing StyleRoot from Radium
-console.log('[Person.js] rendering...');
-  return (
-    //our style will override the Person classname in styling!!!
-    // <div className='Person' style = {style}>
-    <div className={classes.Person}>
-      <p onClick={props.click}>
-        {" "}
-        I'm {props.name} and I'm a {props.age} years old!!!{" "}
-      </p>
-      <p>{props.children}</p>
-      <input type="text" onChange={props.changed} value={props.name}></input>
-    </div>
-  );
-};
 
-export default person;
+  render() {
+    console.log("[Person.js] rendering...");
+    return (
+      //our style will override the Person classname in styling!!!
+      // <div className='Person' style = {style}>
+      <div className={classes.Person}>
+        <p onClick={this.props.click}>
+          {" "}
+          I'm {this.props.name} and I'm a {this.props.age} years old!!!{" "}
+        </p>
+        <p>{this.props.children}</p>
+        <input type="text" onChange={this.props.changed} value={this.props.name}></input>
+      </div>
+    );
+  }
+}
+
+export default Person;
