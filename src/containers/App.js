@@ -18,6 +18,8 @@ class App extends Component {
     ],
     otherState: "some other state",
     showPeople: false,
+    changeCounter: 0,
+    authenticated: false,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -34,13 +36,12 @@ class App extends Component {
   }
 
   shouldComponentUpdate() {
-    console.log('[App.js] ShouldComponentUpdate');
+    console.log("[App.js] ShouldComponentUpdate");
     return true;
   }
 
   componentDidUpdate() {
-    console.log('[App.js] ComponentDidUpddate');
-
+    console.log("[App.js] ComponentDidUpddate");
   }
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.people.findIndex((p) => {
@@ -56,7 +57,14 @@ class App extends Component {
     const people = [...this.state.people];
     people[personIndex] = person;
 
-    this.setState({ people: people });
+    // state updating should be done only this way to avoid running into state inconcistency during
+    // different processes running synchroniously!!!!
+    this.setState((prevState, props) => {
+      return {
+        people: people,
+        changeCounter: prevState.changeCounter + 1,
+      };
+    });
   };
 
   deletePersonHandler = (personIndex) => {
@@ -67,6 +75,10 @@ class App extends Component {
   togglePeopleHandler = () => {
     const doesShow = this.state.showPeople;
     this.setState({ showPeople: !doesShow });
+  };
+
+  loginHandler = () => {
+    this.setState({ authenticated: true });
   };
 
   render() {
@@ -80,6 +92,7 @@ class App extends Component {
           people={this.state.people}
           clicked={this.deletePersonHandler}
           changed={this.nameChangedHandler}
+          isAuthenticated = {this.state.authenticated}
         />
       );
     }
@@ -89,8 +102,9 @@ class App extends Component {
         <Cockpit
           title={this.props.appTitle}
           showPeople={this.state.showPeople}
-          people={this.state.people}
+          peopleLength={this.state.people.length}
           clicked={this.togglePeopleHandler}
+          login={this.loginHandler}
         />
         {people}
       </div>
